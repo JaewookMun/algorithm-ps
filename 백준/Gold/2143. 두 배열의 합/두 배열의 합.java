@@ -1,7 +1,9 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.StringTokenizer;
 
 public class Main {
@@ -26,53 +28,51 @@ public class Main {
             b[i] = Integer.parseInt(tokens.nextToken());
         }
 
-        int[] arrA = new int[n*(n+1)/2];
-        int[] arrB = new int[m*(m+1)/2];
+        ArrayList<Integer> listA = new ArrayList<>();
+        ArrayList<Integer> listB = new ArrayList<>();
 
-        int idxA = 0;
         for(int i=0; i<n; i++) {
             int subSum = 0;
             for(int j=i; j<n; j++) {
                 subSum += a[j];
-                arrA[idxA++] = subSum;
+                listA.add(subSum);
             }
         }
 
-        int idxB = 0;
         for(int i=0; i<m; i++) {
             int subSum = 0;
             for(int j=i; j<m; j++) {
                 subSum += b[j];
-                arrB[idxB++] = subSum;
+                listB.add(subSum);
             }
         }
-        Arrays.sort(arrB);
+        Collections.sort(listB);
 
         long count = 0;
-        for(int i=0; i<arrA.length; i++) {
-            int numB = target - arrA[i];
+        for(int i=0; i<listA.size(); i++) {
+            int numB = target - listA.get(i);
 
             int start = 0;
-            int end = arrB.length-1;
+            int end = listB.size()-1;
 
             while(start < end) {
                 int mid = (start + end) / 2;
 
-                if(arrB[mid] < numB) start = mid + 1;
+                if(listB.get(mid) < numB) start = mid + 1;
                 else end = mid;
             }
 
-            if(arrB[end] != numB) continue;
+            if(listB.get(end) != numB) continue;
 
             int lowerBound = end;
 
             start = 0;
-            end = arrB.length;
+            end = listB.size();
 
             while(start < end) {
                 int mid = (start + end) / 2;
 
-                if(arrB[mid] <= numB) start = mid + 1;
+                if(listB.get(mid) <= numB) start = mid + 1;
                 else end = mid;
             }
             int upperBound = end;
