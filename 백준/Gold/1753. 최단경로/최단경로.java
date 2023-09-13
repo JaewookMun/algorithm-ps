@@ -1,7 +1,10 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.PriorityQueue;
+import java.util.StringTokenizer;
 
 public class Main {
     private static ArrayList<ArrayList<Node>> graph = new ArrayList<>();
@@ -45,22 +48,22 @@ public class Main {
         br.close();
     }
 
-    private void dijkstra(int start) {
+    private void dijkstra(int s) {
         PriorityQueue<Node> queue = new PriorityQueue<>();
-        queue.add(new Node(start, 0));
-        dist[start] = 0;
+        queue.add(new Node(s, 0));
+        dist[s] = 0;
 
         while (!queue.isEmpty()) {
             Node head = queue.poll();
 
-            int vertex = head.end;
+            int start = head.end;
 
-            if(visited[vertex]) continue;
-            visited[vertex] = true;
+            if(visited[start]) continue;
+            visited[start] = true;
 
-            for (Node node : graph.get(vertex)) {
-                if(dist[node.end] > dist[vertex] + node.w) {
-                    dist[node.end] = dist[vertex] + node.w;
+            for (Node node : graph.get(start)) {
+                if(dist[node.end] > dist[start] + node.w) {
+                    dist[node.end] = dist[start] + node.w;
                     queue.add(new Node(node.end, dist[node.end]));
                 }
             }
